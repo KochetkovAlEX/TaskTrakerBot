@@ -12,3 +12,8 @@ async def add_habbit(message: Message, command: Command) -> None:
 
     else:
         await message.answer("Пожалуйста, напишите привычку для отслеживания")
+
+
+@router.message(Command("setup"))
+async def setup_notion_time(message: Message) -> None:
+    pass

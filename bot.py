@@ -5,11 +5,10 @@ import os
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
-from aiogram.types import Message
 from dotenv import load_dotenv
 
-from routers import habbit_router
+from admin_router import commands
+from handlers import habits, user_commands
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -17,20 +16,14 @@ TOKEN = os.getenv("TOKEN")
 dp = Dispatcher()
 
 
-@dp.message(CommandStart())
-async def greeting(message: Message) -> None:
-    """Функция для приветствия"""
-    await message.answer(f"Hello, {message.from_user.first_name}")
-
-
 async def main() -> None:
     """Функция запуска основной программы"""
     bot = Bot(
         token=TOKEN,
-        default=DefaultBotProperties(parse_mode=ParseMode.HTML),
+        default=DefaultBotProperties(parse_mode="MarkdownV2"),
     )
 
-    dp.include_router(habbit_router.router)
+    dp.include_routers(commands.admin, habits.router, user_commands.router)
     # сообщения, которые были отправлены боту, когда он был выключен, при включении будут игнорироваться
     await bot.delete_webhook(drop_pending_updates=True)
     # запуск бота
