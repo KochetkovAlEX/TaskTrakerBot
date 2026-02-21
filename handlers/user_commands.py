@@ -25,6 +25,6 @@ async def show_help_message(message: Message) -> None:
 async def test_function(message: Message) -> None:
     await message.answer("Кнопки", reply_markup=inline.inline_difficulty_buttons)
 
-    await message.edit_text(
-        "новый текст", reply_markup=inline.inline_difficulty_buttons
-    )
+    # await message.edit_text(
+    #     "новый текст", reply_markup=inline.inline_difficulty_buttons
+    # )

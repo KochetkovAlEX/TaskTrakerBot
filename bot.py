@@ -7,7 +7,7 @@ from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
 
 from admin_router import commands
-from handlers import habits, user_commands
+from handlers import callback, habits, user_commands
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -22,10 +22,11 @@ async def main() -> None:
         default=DefaultBotProperties(parse_mode="MarkdownV2"),
     )
 
-    dp.include_routers(commands.admin, habits.router, user_commands.router)
+    dp.include_routers(
+        commands.admin, habits.router, user_commands.router, callback.router
+    )
     # сообщения, которые были отправлены боту, когда он был выключен, при включении будут игнорироваться
     await bot.delete_webhook(drop_pending_updates=True)
-    # запуск бота
     await dp.start_polling(bot)
 
 
