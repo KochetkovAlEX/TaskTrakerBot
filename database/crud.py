@@ -36,3 +36,6 @@ async def delete_task(task_id: int) -> None:
 async def change_notion_time(user_id: int) -> None:
     """Функция изменения времени рассылки по id пользователя"""
     pass
+
+
+async def create_user()

@@ -21,7 +21,7 @@ class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
-    notion_time: Mapped[str] = mapped_column(String, default="20:00")
+    # notification_time: Mapped[str] = mapped_column(String, default="20:00")
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
 
@@ -30,8 +30,8 @@ class Task(Base):
 
     __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     title: Mapped[str] = mapped_column(String)
-    description: Mapped[str] = mapped_column(String)
     difficulty: Mapped[str] = mapped_column(String)
     priority: Mapped[str] = mapped_column(String)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())

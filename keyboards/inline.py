@@ -35,17 +35,17 @@ inline_priority_buttons = InlineKeyboardMarkup(
         [
             InlineKeyboardButton(
                 text=f"{TaskPriority.LOW.value}",
-                callback_data="priority_" + f"{TaskDifficulty.EASY.value}",
+                callback_data="priority_" + f"{TaskPriority.LOW.value}",
             ),
             InlineKeyboardButton(
                 text=f"{TaskDifficulty.MEDIUM.value}",
-                callback_data="priority_" + f"{TaskDifficulty.MEDIUM.value}",
+                callback_data="priority_" + f"{TaskPriority.MEDIUM.value}",
             ),
         ],
         [
             InlineKeyboardButton(
                 text=f"{TaskDifficulty.HARD.value}",
-                callback_data="priority_" + f"{TaskDifficulty.HARD.value}",
+                callback_data="priority_" + f"{TaskPriority.HIGHT.value}",
             )
         ],
         [InlineKeyboardButton(text="Отмена", callback_data="button_cancel")],

@@ -22,4 +22,4 @@ async def admin_help(message: Message) -> None:
 @admin.message(Admin(), Command("reload"))
 async def admin_reload_database(message: Message) -> None:
     await crud.reload_database()
-    await message.answer("Database reloaded")
+    await message.answer("Database reloaded and recreated")
