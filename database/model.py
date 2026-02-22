@@ -30,7 +30,7 @@ class Task(Base):
 
     __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.tg_id"))
     title: Mapped[str] = mapped_column(String)
     difficulty: Mapped[str] = mapped_column(String)
     priority: Mapped[str] = mapped_column(String)

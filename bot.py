@@ -35,5 +35,5 @@ if __name__ == "__main__":
     try:
         print("bot start working")
         asyncio.run(main())
-    except KeyboardInterrupt as e:
+    except KeyboardInterrupt:
         print("bot stop working")

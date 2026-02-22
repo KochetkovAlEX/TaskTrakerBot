@@ -1,5 +1,5 @@
-from task_difficulties import TaskDifficulty
-from task_priority import TaskPriority
+from .task_difficulties import TaskDifficulty
+from .task_priority import TaskPriority
 
 # ----- Dicts for notification message -----
 

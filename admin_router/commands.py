@@ -14,12 +14,12 @@ admin = Router()
 async def admin_help(message: Message) -> None:
     await user_commands.show_help_message(message)
     await message.answer(
-        "**Admin Commands**\n/reload \- **Drop and Create Database**",
-        parse_mode="MarkdownV2",
+        "<b>Admin Commands</b>\n/reload - <b>Drop and Create Database</b>",
+        parse_mode="HTML",
     )
 
 
 @admin.message(Admin(), Command("reload"))
 async def admin_reload_database(message: Message) -> None:
     await crud.reload_database()
-    await message.answer("Database reloaded and recreated")
+    await message.answer("<b>Database reloaded and recreated</b>", parse_mode="HTML")

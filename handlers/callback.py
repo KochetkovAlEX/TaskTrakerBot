@@ -1,9 +1,8 @@
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery
 
-from config import task_difficulties, task_priority
+from database.crud import add_task
 from keyboards.inline import inline_priority_buttons
 from states.task import TaskState
 
@@ -30,5 +29,11 @@ async def set_difficulty(callback: CallbackQuery, state: FSMContext) -> None:
 async def set_priority(callback: CallbackQuery, state: FSMContext) -> None:
     await state.update_data(priority=callback.data.split("_")[1])
     data = await state.get_data()
-    print(data)
+    await add_task(
+        data["title"].capitalize(),
+        data["difficulty"].capitalize(),
+        data["priority"].capitalize(),
+        callback.from_user.id,
+    )
     await state.clear()
+    await callback.message.answer("Привычка добавлена")
