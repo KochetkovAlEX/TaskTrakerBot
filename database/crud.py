@@ -38,4 +38,6 @@ async def change_notion_time(user_id: int) -> None:
     pass
 
 
-async def create_user()
+async def create_user(tg_id: int) -> None:
+    """Функция добавления пользователя после нажатия '/start'"""
+    pass
