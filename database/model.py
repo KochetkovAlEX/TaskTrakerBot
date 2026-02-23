@@ -1,17 +1,18 @@
 from datetime import datetime
 
 from sqlalchemy import BigInteger, DateTime, ForeignKey, String, func
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.ext.asyncio import (AsyncAttrs,
+                                    async_sessionmaker,
+                                    create_async_engine)
+from sqlalchemy.orm import (DeclarativeBase, Mapped, mapped_column)
 
 engine = create_async_engine(url="sqlite+aiosqlite:///db.sqlite3", echo=True)
 
 async_session = async_sessionmaker(engine)
 
 
-class Base(
-    AsyncAttrs, DeclarativeBase
-):  # Асинхронная сессия и декларативный стиль для описания таблиц, колонок и отношений. Это родительский класс, этот класс нужен всегда
+class Base(AsyncAttrs, DeclarativeBase):
+    """Асинхронная сессия и декларативный стиль для описания таблиц"""
     pass
 
 
@@ -21,8 +22,13 @@ class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
-    # notification_time: Mapped[str] = mapped_column(String, default="20:00")
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    # notification_time: Mapped[str] = mapped_column(
+    # String, default="20:00"
+    # )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        server_default=func.now()
+    )
 
 
 class Task(Base):
@@ -34,7 +40,10 @@ class Task(Base):
     title: Mapped[str] = mapped_column(String)
     difficulty: Mapped[str] = mapped_column(String)
     priority: Mapped[str] = mapped_column(String)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        server_default=func.now()
+    )
 
 
 class CompletedTask(Base):
@@ -43,4 +52,7 @@ class CompletedTask(Base):
     __tablename__ = "completed_task"
     id: Mapped[int] = mapped_column(primary_key=True)
     task_id: Mapped[int] = mapped_column(ForeignKey("tasks.id"))
-    completed_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    completed_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        server_default=func.now()
+    )

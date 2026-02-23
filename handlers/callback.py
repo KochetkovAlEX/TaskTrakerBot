@@ -11,6 +11,7 @@ router = Router()
 
 @router.callback_query(F.data == "button_cancel")
 async def cancel_function(callback: CallbackQuery, state: FSMContext) -> None:
+    """Функция для очистки состояния"""
     await callback.answer()
     await callback.message.answer("Отмена добавления задачи")
     await state.clear()
@@ -18,6 +19,7 @@ async def cancel_function(callback: CallbackQuery, state: FSMContext) -> None:
 
 @router.callback_query(F.data.contains("level_"))
 async def set_difficulty(callback: CallbackQuery, state: FSMContext) -> None:
+    """Функция для выбора уровня сложности привычки"""
     await state.update_data(difficulty=callback.data.split("_")[1])
     await state.set_state(TaskState.priority)
     await callback.message.answer(
@@ -27,6 +29,7 @@ async def set_difficulty(callback: CallbackQuery, state: FSMContext) -> None:
 
 @router.callback_query(F.data.contains("priority_"))
 async def set_priority(callback: CallbackQuery, state: FSMContext) -> None:
+    """Функция для выбора приоритета привычки"""
     await state.update_data(priority=callback.data.split("_")[1])
     data = await state.get_data()
     await add_task(

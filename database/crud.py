@@ -1,18 +1,25 @@
-from sqlalchemy import delete, desc, select, update
+from sqlalchemy import select, update
 
-from .model import Base, CompletedTask, Task, User, async_session, engine
+from .model import Base, Task, User, async_session, engine
 
 
 # ----- core database functions -----
 async def reload_database() -> None:
-    """Функция перезагрузки базы данных. Сначала полностью удаляет её, а потом создаёт заново"""
+    """
+    Функция перезагрузки базы данных
+    Сначала полностью удаляет её, а потом создаёт заново
+    """
     async with engine.begin() as con:
         await con.run_sync(Base.metadata.drop_all)
         await con.run_sync(Base.metadata.create_all)
 
 
 # ----- CRUD -----
-async def add_task(title: str, difficulty: str, priority: str, tg_id: int) -> None:
+async def add_task(
+        title: str,
+        difficulty: str,
+        priority: str,
+        tg_id: int) -> None:
     """Функция добавления отслеживаемой задачи"""
     async with async_session() as session:
         task = await session.scalar(
@@ -27,7 +34,10 @@ async def add_task(title: str, difficulty: str, priority: str, tg_id: int) -> No
         if not task:
             session.add(
                 Task(
-                    title=title, difficulty=difficulty, priority=priority, user_id=tg_id
+                    title=title,
+                    difficulty=difficulty,
+                    priority=priority,
+                    user_id=tg_id
                 )
             )
         await session.commit()
@@ -36,7 +46,9 @@ async def add_task(title: str, difficulty: str, priority: str, tg_id: int) -> No
 async def get_tasks(tg_id: int) -> list[Task]:
     """Функция для получения списка задач пользователя"""
     async with async_session() as session:
-        tasks = await session.scalars(select(Task).where(Task.user_id == tg_id))
+        tasks = await session.scalars(
+            select(Task).where(Task.user_id == tg_id)
+        )
         tasks_list = tasks.all()
         return list(tasks_list)
 

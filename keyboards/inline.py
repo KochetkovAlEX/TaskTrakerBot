@@ -3,6 +3,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config.task_difficulties import TaskDifficulty
 from config.task_priority import TaskPriority
 
+# ----- inline buttons for creating task -----
 inline_difficulty_buttons = InlineKeyboardMarkup(
     inline_keyboard=[
         [
@@ -51,3 +52,32 @@ inline_priority_buttons = InlineKeyboardMarkup(
         [InlineKeyboardButton(text="Отмена", callback_data="button_cancel")],
     ]
 )
+
+
+# ----- buttons for updating task -----
+# ON FUTURE
+"""inline_update_buttons = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(
+                text="Название",
+                callback_data="title_update",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="Приоритет",
+                callback_data="priority_update",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="Сложность",
+                callback_data="level_update"
+            )
+        ],
+        [
+            InlineKeyboardButton(text="Отмена", callback_data="button_cancel")
+        ],
+    ]
+)"""

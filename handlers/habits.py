@@ -16,12 +16,10 @@ router = Router()
 #     if command.args:
 #         await message.answer(f"{command.args}")
 
-#     else:
-#         await message.answer("Пожалуйста, напишите привычку для отслеживания")
-
 
 @router.message(Command("setup"))
 async def setup_notion_time(message: Message) -> None:
+    """Функция для изменения времени оповещения"""
     pass
 
 
@@ -33,14 +31,19 @@ async def add_habbit(message: Message, state: FSMContext) -> None:
 
 
 @router.message(TaskState.title)
-async def add_difficult_after_title(message: Message, state: FSMContext) -> None:
+async def add_difficult_level(message: Message, state: FSMContext) -> None:
+    """Функция для ввода названия привычки"""
     await state.update_data(title=message.text)
     await state.set_state(TaskState.difficulty)
-    await message.answer("Выберите сложность", reply_markup=inline_difficulty_buttons)
+    await message.answer(
+        "Выберите сложность",
+        reply_markup=inline_difficulty_buttons,
+    )
 
 
 @router.message(Command("show_habbits"))
 async def show_active_tasks(message: Message) -> None:
+    """Функция вывода списка отслеживаемых привычек"""
     tasks = await get_tasks(message.from_user.id)
     if not tasks:
         message.answer(
@@ -50,3 +53,13 @@ async def show_active_tasks(message: Message) -> None:
 
     tasks_message = create_anser_message(tasks)
     await message.answer(tasks_message, parse_mode="HTML")
+
+
+@router.message(Command("update_task"))
+async def update_active_task(message: Message) -> None:
+    pass
+
+
+@router.message(Comand("delete_task"))
+async def delete_active_task(message: Message) -> None:
+    pass
