@@ -43,7 +43,7 @@ async def show_active_tasks(message: Message) -> None:
     tasks = await get_tasks(message.from_user.id)
     if not tasks:
         await message.answer(
-            "Список задач пуст\n Вы можете добавить новую задачу, написав `/add`",
+            "Список задач пуст\nВы можете добавить новую задачу, написав `/add`",
             parse_mode=ParseMode.MARKDOWN
         )
         return
