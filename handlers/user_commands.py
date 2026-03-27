@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
-
+from aiogram.enums.parse_mode import ParseMode
 from database.crud import create_user
 
 router = Router()
@@ -18,8 +18,11 @@ async def greeting(message: Message) -> None:
 async def show_help_message(message: Message) -> None:
     """Функция для показа списка команд"""
     await message.answer(
-        "<b>Commands</b>\n/add - <b>Добавить привычку</b>\n"
-        + "/setup - <b>Изменить время оповещений</b>"
-        + "\n/show - <b>Список привычек</b>",
-        parse_mode="HTML",
+        "*Команды*"
+        + "\n/add - *Добавить привычку*"
+        + "\n/setup - *Изменить время оповещений*"
+        + "\n/show - *Список привычек*"
+        + "\n/update <название_привычки> - *Обновить привычку*"
+        + "\n/delete <название_привычки> - *Удаление привычки*",
+        parse_mode=ParseMode.MARKDOWN,
     )

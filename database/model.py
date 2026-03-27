@@ -34,8 +34,8 @@ class Task(Base):
 
     __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.tg_id"), nullable=False, unique=True)
-    title: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.tg_id"), nullable=False)
+    title: Mapped[str] = mapped_column(String, nullable=False)
     difficulty: Mapped[str] = mapped_column(String, nullable=False)
     priority: Mapped[str] = mapped_column(String, nullable=False)
     created_at: Mapped[datetime] = mapped_column(

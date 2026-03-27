@@ -1,4 +1,4 @@
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 
 from .model import Base, Task, User, async_session, engine
 
@@ -70,7 +70,11 @@ async def update_task(task_id: int, **kwargs) -> None:
 
 async def delete_task(task_id: int) -> None:
     """Функция удаления задачи (не переводит в статус завершённых)"""
-    pass
+    async with async_session() as session:
+        await session.execute(
+            delete(Task).where(Task.id == task_id)
+        )
+        await session.commit()
 
 
 # ----- USER MODEL -----

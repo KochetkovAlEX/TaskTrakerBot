@@ -1,10 +1,11 @@
 from aiogram import Router
+from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from config.const import DIFICULTY_DICT, PRIORITY_DICT
-from database.crud import get_task, get_tasks
+from database.crud import get_task, get_tasks, delete_task
 from keyboards.inline import inline_difficulty_buttons, inline_update_buttons
 from service import create_anser_message
 from states.task import TaskState
@@ -42,8 +43,8 @@ async def show_active_tasks(message: Message) -> None:
     tasks = await get_tasks(message.from_user.id)
     if not tasks:
         await message.answer(
-            "Список задач пуст\n Вы можете добавить задачу, написав `/add`",
-            parse_mode="HTML",
+            "Список задач пуст\n Вы можете добавить новую задачу, написав `/add`",
+            parse_mode=ParseMode.MARKDOWN
         )
         return
 
@@ -52,14 +53,20 @@ async def show_active_tasks(message: Message) -> None:
 
 
 @router.message(Command("delete"))
-async def delete_active_task(message: Message) -> None:
-    pass
+async def delete_active_task(message: Message, command: Command) -> None:
+    task_to_delete = command.args.capitalize()
 
+    if not task_to_delete:
+        await message.answer("Сообщение не должно быть пустым")
+        return
 
-# @router.message(Command("test"))
-# async def test_func(message: Message, command: Command) -> None:
-#     await message.answer(command.args)
-#     print(command.args)
+    task = await get_task(message.from_user.id, task_to_delete)
+    if not task:
+        await message.answer("Такой задачи не существует")
+        return
+
+    await delete_task(task.id)
+    await message.answer("Привычка успешно удалена ✅")
 
 
 @router.message(Command("update"))
@@ -73,7 +80,7 @@ async def update_active_task(
     task = await get_task(message.from_user.id, command.args.capitalize())
 
     if not task:
-        await message.answer("Данной задачи нет")
+        await message.answer("Такой задачи нет")
         return
 
     await state.update_data(
