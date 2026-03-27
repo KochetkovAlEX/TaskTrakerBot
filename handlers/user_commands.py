@@ -20,6 +20,6 @@ async def show_help_message(message: Message) -> None:
     await message.answer(
         "<b>Commands</b>\n/add - <b>Добавить привычку</b>\n"
         + "/setup - <b>Изменить время оповещений</b>"
-        + "\n/show_habbits - <b>Список привычек</b>",
+        + "\n/show - <b>Список привычек</b>",
         parse_mode="HTML",
     )

@@ -3,18 +3,13 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from database.crud import get_tasks
-from keyboards.inline import inline_difficulty_buttons
+from config.const import DIFICULTY_DICT, PRIORITY_DICT
+from database.crud import get_task, get_tasks
+from keyboards.inline import inline_difficulty_buttons, inline_update_buttons
 from service import create_anser_message
 from states.task import TaskState
 
 router = Router()
-
-
-# @router.message(Command("add"))
-# async def add_habbit(message: Message, command: Command) -> None:
-#     if command.args:
-#         await message.answer(f"{command.args}")
 
 
 @router.message(Command("setup"))
@@ -41,25 +36,57 @@ async def add_difficult_level(message: Message, state: FSMContext) -> None:
     )
 
 
-@router.message(Command("show_habbits"))
+@router.message(Command("show"))
 async def show_active_tasks(message: Message) -> None:
     """Функция вывода списка отслеживаемых привычек"""
     tasks = await get_tasks(message.from_user.id)
     if not tasks:
-        message.answer(
+        await message.answer(
             "Список задач пуст\n Вы можете добавить задачу, написав `/add`",
             parse_mode="HTML",
         )
+        return
 
     tasks_message = create_anser_message(tasks)
     await message.answer(tasks_message, parse_mode="HTML")
 
 
-@router.message(Command("update_task"))
-async def update_active_task(message: Message) -> None:
-    pass
-
-
-@router.message(Comand("delete_task"))
+@router.message(Command("delete"))
 async def delete_active_task(message: Message) -> None:
     pass
+
+
+# @router.message(Command("test"))
+# async def test_func(message: Message, command: Command) -> None:
+#     await message.answer(command.args)
+#     print(command.args)
+
+
+@router.message(Command("update"))
+async def update_active_task(
+        message: Message, command: Command, state: FSMContext
+) -> None:
+    if not command.args:
+        await message.answer("Укажите название задачи")
+        return
+
+    task = await get_task(message.from_user.id, command.args.capitalize())
+
+    if not task:
+        await message.answer("Данной задачи нет")
+        return
+
+    await state.update_data(
+        task_id=task.id,
+        old_title=task.title,
+        old_difficulty=task.difficulty,
+        old_priority=task.priority,
+        user_id=task.user_id,
+    )
+
+    await message.answer(
+        f"Найдена задача: {PRIORITY_DICT[task.priority]} {task.title} {DIFICULTY_DICT[task.difficulty]}",
+        parse_mode="HTML",
+    )
+
+    await message.answer("Что вы хотите обновить?", reply_markup=inline_update_buttons)

@@ -30,7 +30,6 @@ inline_difficulty_buttons = InlineKeyboardMarkup(
     ]
 )
 
-
 inline_priority_buttons = InlineKeyboardMarkup(
     inline_keyboard=[
         [
@@ -39,13 +38,13 @@ inline_priority_buttons = InlineKeyboardMarkup(
                 callback_data="priority_" + f"{TaskPriority.LOW.value}",
             ),
             InlineKeyboardButton(
-                text=f"{TaskDifficulty.MEDIUM.value}",
+                text=f"{TaskPriority.MEDIUM.value}",
                 callback_data="priority_" + f"{TaskPriority.MEDIUM.value}",
             ),
         ],
         [
             InlineKeyboardButton(
-                text=f"{TaskDifficulty.HARD.value}",
+                text=f"{TaskPriority.HIGHT.value}",
                 callback_data="priority_" + f"{TaskPriority.HIGHT.value}",
             )
         ],
@@ -53,10 +52,9 @@ inline_priority_buttons = InlineKeyboardMarkup(
     ]
 )
 
-
 # ----- buttons for updating task -----
 # ON FUTURE
-"""inline_update_buttons = InlineKeyboardMarkup(
+inline_update_buttons = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
@@ -70,14 +68,7 @@ inline_priority_buttons = InlineKeyboardMarkup(
                 callback_data="priority_update",
             )
         ],
-        [
-            InlineKeyboardButton(
-                text="Сложность",
-                callback_data="level_update"
-            )
-        ],
-        [
-            InlineKeyboardButton(text="Отмена", callback_data="button_cancel")
-        ],
+        [InlineKeyboardButton(text="Сложность", callback_data="level_update")],
+        [InlineKeyboardButton(text="Отмена", callback_data="button_cancel")],
     ]
-)"""
+)

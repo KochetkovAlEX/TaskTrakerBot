@@ -4,6 +4,7 @@ import os
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
+from aiogram.fsm.storage.memory import MemoryStorage
 from dotenv import load_dotenv
 
 from admin_router import commands
@@ -12,7 +13,7 @@ from handlers import callback, habits, user_commands
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
-dp = Dispatcher()
+dp = Dispatcher(storage=MemoryStorage())
 
 
 async def main() -> None:
@@ -31,7 +32,7 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    # logging.basicConfig(level=logging.INFO)
     try:
         print("bot start working")
         asyncio.run(main())

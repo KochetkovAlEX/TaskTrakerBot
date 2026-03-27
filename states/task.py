@@ -7,3 +7,11 @@ class TaskState(StatesGroup):
     title: State = State()
     difficulty: State = State()
     priority: State = State()
+
+
+class UpdateTaskState(StatesGroup):
+    """Класс состояния для обновления задачи"""
+
+    title: State = State()
+    difficulty: State = State()
+    priority: State = State()

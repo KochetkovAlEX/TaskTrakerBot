@@ -15,11 +15,7 @@ async def reload_database() -> None:
 
 
 # ----- CRUD -----
-async def add_task(
-        title: str,
-        difficulty: str,
-        priority: str,
-        tg_id: int) -> None:
+async def add_task(title: str, difficulty: str, priority: str, tg_id: int) -> None:
     """Функция добавления отслеживаемой задачи"""
     async with async_session() as session:
         task = await session.scalar(
@@ -34,10 +30,7 @@ async def add_task(
         if not task:
             session.add(
                 Task(
-                    title=title,
-                    difficulty=difficulty,
-                    priority=priority,
-                    user_id=tg_id
+                    title=title, difficulty=difficulty, priority=priority, user_id=tg_id
                 )
             )
         await session.commit()
@@ -46,11 +39,18 @@ async def add_task(
 async def get_tasks(tg_id: int) -> list[Task]:
     """Функция для получения списка задач пользователя"""
     async with async_session() as session:
-        tasks = await session.scalars(
-            select(Task).where(Task.user_id == tg_id)
-        )
+        tasks = await session.scalars(select(Task).where(Task.user_id == tg_id))
         tasks_list = tasks.all()
         return list(tasks_list)
+
+
+async def get_task(tg_id: int, task_title: str) -> Task | None:
+    """Функция для получения списка задач пользователя"""
+    async with async_session() as session:
+        task = await session.scalar(
+            select(Task).where(Task.user_id == tg_id, Task.title == task_title)
+        )
+        return task
 
 
 async def complete_task(task_id: int) -> None:
@@ -58,9 +58,14 @@ async def complete_task(task_id: int) -> None:
     pass
 
 
-async def update_task(task_id: int) -> None:
+async def update_task(task_id: int, **kwargs) -> None:
     """Функция обновления данных задачи"""
-    pass
+    async with async_session() as session:
+        update_data = {k: v for k, v in kwargs.items()}
+        await session.execute(
+            update(Task).where(Task.id == task_id).values(**update_data)
+        )
+        await session.commit()
 
 
 async def delete_task(task_id: int) -> None:
@@ -68,7 +73,7 @@ async def delete_task(task_id: int) -> None:
     pass
 
 
-# ----- user model -----
+# ----- USER MODEL -----
 async def change_notification_time(tg_id: int) -> None:
     """Функция изменения времени рассылки по id пользователя"""
     pass
