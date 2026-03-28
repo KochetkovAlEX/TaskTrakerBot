@@ -5,11 +5,11 @@ from .task_priority import TaskPriority
 PRIORITY_DICT: dict[str, str] = {
     TaskPriority.LOW.value: "⏹️",
     TaskPriority.MEDIUM.value: "🔼",
-    TaskPriority.HIGHT.value: "⏫",
+    TaskPriority.HIGH.value: "⏫",
 }
 
 
-DIFICULTY_DICT: dict[str, str] = {
+DIFFICULTY_DICT: dict[str, str] = {
     TaskDifficulty.EASY.value: "🟢",
     TaskDifficulty.MEDIUM.value: "🟠",
     TaskDifficulty.HARD.value: "🔴",

@@ -44,8 +44,8 @@ inline_priority_buttons = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton(
-                text=f"{TaskPriority.HIGHT.value}",
-                callback_data="priority_" + f"{TaskPriority.HIGHT.value}",
+                text=f"{TaskPriority.HIGH.value}",
+                callback_data="priority_" + f"{TaskPriority.HIGH.value}",
             )
         ],
         [InlineKeyboardButton(text="Отмена", callback_data="button_cancel")],

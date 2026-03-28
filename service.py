@@ -1,13 +1,13 @@
-from config.const import DIFICULTY_DICT, PRIORITY_DICT
+from config.const import DIFFICULTY_DICT, PRIORITY_DICT
 from database.model import Task
 
 
-def create_anser_message(tasks: list[Task]) -> str:
+def create_answer_message(tasks: list[Task]) -> str:
     result = "<b>Активные привычки</b>\n"
     for task in tasks:
-        result += f"{PRIORITY_DICT[task.priority]} {task.title} - {task.created_at} {DIFICULTY_DICT[task.difficulty]}\n"
+        result += f"{PRIORITY_DICT[task.priority]} {task.title} - {task.created_at} {DIFFICULTY_DICT[task.difficulty]}\n"
     result += "\n\nУровень сложности:\n"
-    for key, value in DIFICULTY_DICT.items():
+    for key, value in DIFFICULTY_DICT.items():
         result += f"{key} - {value}\n"
 
     result += "\n\nПриоритет:\n"

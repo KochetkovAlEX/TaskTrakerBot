@@ -6,4 +6,4 @@ class TaskPriority(Enum):
 
     LOW = "Низкий"
     MEDIUM = "Средний"
-    HIGHT = "Высокий"
+    HIGH = "Высокий"

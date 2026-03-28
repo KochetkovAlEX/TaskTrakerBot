@@ -4,10 +4,10 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from config.const import DIFICULTY_DICT, PRIORITY_DICT
+from config.const import DIFFICULTY_DICT, PRIORITY_DICT
 from database.crud import get_task, get_tasks, delete_task
 from keyboards.inline import inline_difficulty_buttons, inline_update_buttons
-from service import create_anser_message
+from service import create_answer_message
 from states.task import TaskState
 
 router = Router()
@@ -48,7 +48,7 @@ async def show_active_tasks(message: Message) -> None:
         )
         return
 
-    tasks_message = create_anser_message(tasks)
+    tasks_message = create_answer_message(tasks)
     await message.answer(tasks_message, parse_mode="HTML")
 
 
@@ -92,7 +92,7 @@ async def update_active_task(
     )
 
     await message.answer(
-        f"Найдена задача: {PRIORITY_DICT[task.priority]} {task.title} {DIFICULTY_DICT[task.difficulty]}",
+        f"Найдена задача: {PRIORITY_DICT[task.priority]} {task.title} {DIFFICULTY_DICT[task.difficulty]}",
         parse_mode="HTML",
     )
 
